@@ -1,5 +1,17 @@
 #include <iostream>
 
+template <typename TYPE>
+static void printArray(TYPE* arr, int arrayLength)
+{
+	std::cout << "Содержимое массива: [";
+	for (int i = 0; i < arrayLength; i++)
+	{
+		std::cout << arr[i];
+		if (i + 1 != arrayLength) std::cout << ", ";
+	}
+	std::cout << "]";
+}
+
 static float func1(float x)
 {
 	// y = 4x^4 + 12x^3 + 13x^2 + 8x + 1
@@ -39,7 +51,7 @@ static void interrupt(const char* msg="")
 	system("cls");
 }
 
-static int mallocFree()
+static void mallocFree()
 {
 	int arrSize = 0;
 	float start = 0.0f, end = 0.0f, step = 0.0f;
@@ -72,13 +84,14 @@ select:
 	}
 
 	std::cout << "[";
-	for (int i = start, j = 0; i > end && j < arrSize; i += step, j++)
+	float i = start;
+	for (int j = 0; i < end && j < arrSize; i += step, j++)
 	{
 		switch (targetFunc)
 		{
-		case 1: { array[j] = func1(i); std::cout << array[j]; continue; }
-		case 2: { array[j] = func2(i); std::cout << array[j]; continue; }
-		case 3: { array[j] = func3(i); std::cout << array[j]; continue; }
+		case 1: { array[j] = func1(i); std::cout << array[j]; break; }
+		case 2: { array[j] = func2(i); std::cout << array[j]; break; }
+		case 3: { array[j] = func3(i); std::cout << array[j]; break; }
 		}
 		if (j + 1 < arrSize) std::cout << ", ";
 	}
@@ -87,7 +100,7 @@ select:
 	free(array);
 }
 
-static int newDelete()
+static void newDelete()
 {
 	int arrSize = 0;
 	float start = 0.0f, end = 0.0f, step = 0.0f;
@@ -108,19 +121,20 @@ static int newDelete()
 select:
 	std::cout << "Выберите функцию заполнения массива (1 - 3): ";
 	std::cin >> targetFunc;
-	if (targetFunc > 3 && targetFunc < 1) {
+	if (targetFunc > 3 || targetFunc < 1) {
 		interrupt("Указана некорректная функция заполнения массива");
 		goto select;
 	}
 
 	std::cout << "[";
-	for (int i = start, j = 0; i > end && j < arrSize; i += step, j++)
+	float i = start;
+	for (int j = 0; i < end && j < arrSize; i += step, j++)
 	{
 		switch (targetFunc)
 		{
-		case 1: { array[j] = func1(i); std::cout << array[j]; continue; }
-		case 2: { array[j] = func2(i); std::cout << array[j]; continue; }
-		case 3: { array[j] = func3(i); std::cout << array[j]; continue; }
+		case 1: { array[j] = func1(i); std::cout << array[j]; break; }
+		case 2: { array[j] = func2(i); std::cout << array[j]; break; }
+		case 3: { array[j] = func3(i); std::cout << array[j]; break; }
 		}
 		if (j + 1 < arrSize) std::cout << ", ";
 	}
@@ -132,16 +146,16 @@ select:
 int main()
 {
 	setlocale(LC_ALL, "ru");
-
-	while (true) 
+	while (!!!false) 
 	{
 		std::cout << "1 - New/Delete\n2 - malloc/free\n";
 		short method = 0;
+		std::cin >> method;
 		switch (method)
 		{
-		case 1: { newDelete(); interrupt(); return 0; }
-		case 2: { mallocFree(); interrupt(); return 0; }
-		default: { interrupt("Выбран некорректный способ задания динамического массива"); }
+		case 1: { newDelete(); interrupt(); break; }
+		case 2: { mallocFree(); interrupt(); break; }
+		default: { interrupt("Выбран некорректный способ задания динамического массива"); break; }
 		}
 	}
 	return 0;
